@@ -57,9 +57,12 @@ export async function executeInLit () {
         const data = await pinata.gateways.get(`https://${process.env.IPFS_GATEWAY}/ipfs/${process.env.LIT_ACTION_IPFS_CID}`,);
         let res = await litNodeClient.executeJs({
             sessionSigs,
-            code: data.data
-        });
-        console.log(res.response);
+            code: data.data,
+            jsParams: {
+                userAddress: "0xdaEeC8D17dB2d5d94CaD17a1ce2D32c5e0Df9dDe"
+            }
+        }); res = await JSON.parse(res.response);
+        console.log(res);
     } catch (error) {
         console.error(error);
     }
