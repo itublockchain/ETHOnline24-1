@@ -5,7 +5,7 @@ import fs from "fs";
 
 const pinata = new PinataSDK({
   pinataJwt: process.env.PINATA_JWT,
-  pinataGateway: "crimson-cautious-scorpion-703.mypinata.cloud",
+  pinataGateway: process.env.IPFS_GATEWAY,
 });
 
 (async () => {

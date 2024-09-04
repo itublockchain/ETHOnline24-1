@@ -1,11 +1,14 @@
 import { createSiweMessageWithRecaps, generateAuthSig, LitAbility, LitActionResource } from "@lit-protocol/auth-helpers";
 import { LitNodeClient } from "@lit-protocol/lit-node-client";
 import { LIT_RPC, LitNetwork } from "@lit-protocol/constants";
-
+import { PinataSDK } from "pinata-web3";
 import { ethers } from "ethers";
-
 import 'dotenv/config';
-import fs from "fs";
+
+const pinata = new PinataSDK({
+    pinataJwt: process.env.PINATA_JWT,
+    pinataGateway: process.env.IPFS_GATEWAY,
+});
 
 export async function executeInLit () {
 
@@ -50,16 +53,11 @@ export async function executeInLit () {
         },
     });
 
-    // const litActionCode = fs.readFileSync("./src/ml-algorithm.js", "utf8");
-    // let res = await litNodeClient.executeJs({
-    //     sessionSigs,
-    //     code: litActionCode
-    // });
-
     try {
+        const data = await pinata.gateways.get(`https://${process.env.IPFS_GATEWAY}/ipfs/${process.env.LIT_ACTION_IPFS_CID}`,);
         let res = await litNodeClient.executeJs({
             sessionSigs,
-            ipfsId: process.env.LIT_ACTION_IPFS_CID,
+            code: data.data
         });
         console.log(res.response);
     } catch (error) {

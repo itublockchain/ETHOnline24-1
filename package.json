@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "download": "cd backend && yarn && cd ../frontend && yarn && cd ..",
-    "frontend": "cd frontend && vite",
-    "test-lit": "node ./backend/tests/test-lit-protocol.js",
-    "upload-ipfs": "node ./backend/src/upload-ipfs.js"
+    "frontend": "cd frontend && vite && cd ..",
+    "test-lit": "cd backend && node ./tests/test-lit-protocol.js && cd ..",
+    "upload-ipfs": "cd backend && node ./src/upload-ipfs.js && cd .."
   }
 }
