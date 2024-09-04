@@ -1,0 +1,22 @@
+{
+  "name": "persona-backend",
+  "version": "1.0.0",
+  "repository": "https://github.com/itublockchain/ETHOnline24-1.git",
+  "author": "itublockchain",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test-lit": "node ./tests/test-lit-protocol.js",
+    "upload-ipfs": "node ./src/upload-ipfs.js"
+  },
+  "dependencies": {
+    "@lit-protocol/auth-helpers": "^6.4.10",
+    "@lit-protocol/constants": "^6.4.10",
+    "@lit-protocol/lit-node-client": "^6.4.10",
+    "buffer": "^6.0.3",
+    "dotenv": "^16.4.5",
+    "ethers": "^5.7.2",
+    "fs": "^0.0.1-security",
+    "pinata-web3": "^0.4.1"
+  }
+}

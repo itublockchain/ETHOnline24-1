@@ -1,0 +1,13 @@
+{
+  "name": "persona",
+  "version": "1.0.0",
+  "repository": "https://github.com/itublockchain/ETHOnline24-1.git",
+  "author": "itublockchain",
+  "license": "MIT",
+  "scripts": {
+    "download": "cd backend && yarn && cd ../frontend && yarn && cd ..",
+    "frontend": "cd frontend && vite",
+    "test-lit": "node ./backend/tests/test-lit-protocol.js",
+    "upload-ipfs": "node ./backend/src/upload-ipfs.js"
+  }
+}
