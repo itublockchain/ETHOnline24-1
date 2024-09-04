@@ -9,29 +9,16 @@
     font-family: 'Poppins' , sans-serif;
 }
 body {
-    background-color:#1B1D31;
+    background-color: #000;
 }
-#ourAim {
-    background-image: url('./assets//ouraim-bg.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+#home {
     min-height: 100dvh;
 }
-#benefits {
-    background-image: url('./assets//ouraim-bg.png');;
+#footer {
+    background-image: url('./assets//footer-bg.png');;
     background-position: center; 
     background-repeat: no-repeat;
     background-size: cover; 
-    background-attachment: fixed; 
-    min-height: 50vh;
-}
-#leaderboard {
-    background-image: url('./assets//leaderboard-bg.png');;
-    background-position: center right; 
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-attachment: fixed; 
-    min-height: 125vh; 
+    background-attachment: scroll;
+    min-height: 45dvh;
 }

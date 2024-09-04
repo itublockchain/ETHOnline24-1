@@ -1,30 +1,59 @@
+import { useState, useEffect } from "react";
+import { ConnectKitButton } from "connectkit";
 import logo from "../assets/persona-logo.png";
-import Button from "./Button";
+
 const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Scroll eventini dinle
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true); // Sayfa kaydırıldığında navbar'ı işaretle
+      } else {
+        setIsScrolled(false); // Sayfa kaydırılmadığında normal duruma geri dön
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
-      <div className="bg-black">
-      <nav
-        id="navbar-container"
-        className="bg-transparent border-b border-gray-800 shadow-lg"
+      <div className="p-8">
+      <div
+        className={`fixed w-full top-0 left-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-black bg-opacity-80 backdrop-blur-lg shadow-lg"
+            : "bg-transparent"
+        } `}
       >
-        <div className="mx-auto max-w-7xl p-2 sm:p-6 lg:p-2 flex justify-between items-center">
-          <div
-            id="logo"
-            className="flex items-center gap-4 cursor-pointer hover:text-gray-300 transition-all duration-300 ease-in-out transform hover:scale-105"
-          >
-            <img
-              src={logo}
-              alt="logo"
-              className="w-12 transition-transform duration-300 ease-in-out transform hover:rotate-12"
-            />
-            <p className="text-white font-semibold transition-transform duration-300 ease-in-out transform hover:scale-110">
-              Persona
-            </p>
+        <nav
+          id="navbar-container"
+          className="bg-transparent border-b border-gray-800 shadow-lg"
+        >
+          <div className="mx-auto max-w-7xl p-2 sm:p-6 lg:p-2 flex justify-between items-center">
+            <div
+              id="logo"
+              className="flex items-center gap-4 cursor-pointer hover:text-gray-300 transition-all duration-300 ease-in-out transform hover:scale-105"
+            >
+              <img
+                src={logo}
+                alt="logo"
+                className="w-12 transition-transform duration-300 ease-in-out transform hover:rotate-12"
+              />
+              <p className="text-white font-semibold transition-transform duration-300 ease-in-out transform hover:scale-110">
+                Persona
+              </p>
+            </div>
+            <ConnectKitButton />
           </div>
-          <Button />
-        </div>
-      </nav>
+        </nav>
+      </div>
       </div>
     </>
   );

@@ -1,20 +1,11 @@
-import Benefits from "../components/Benefits"
-import Home from "../components/Home"
-import Leaderboard from "../components/Leaderboard"
-import OurAim from "../components/OurAim"
-import Questions from "../components/Questions"
-import Works from "../components/Works"
+import Home from "../components/Home";
+
 const Homepage = () => {
   return (
     <>
-    <Home/>
-    <OurAim/>
-    <Benefits/>
-    <Leaderboard/>
-    <Works/>
-    <Questions/>
+      <Home />
     </>
-  )
-}
+  );
+};
 
-export default Homepage
+export default Homepage;
