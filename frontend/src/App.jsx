@@ -5,7 +5,7 @@ import Homepage from "./pages/Homepage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ConnectedWallet from "./pages/ConnectedWallet";
 import Web3Provider from "./components/Web3Provider";
-import WalletPage from "./components/WalletPage";
+import WalletPage from "./pages/WalletPage";
 import ScrollScore from "./pages/ScrollScore";
 function App() {
   return (

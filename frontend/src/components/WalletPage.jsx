@@ -5,9 +5,9 @@ import ConnectedView from './ConnectedView';
 import Disconnected from "./Disconnected";
 
 const WalletPage = () => {
-  const { isConnected, address } = useAccount();  
+  const { isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("useEffect triggered - isConnected:", isConnected);
@@ -23,30 +23,36 @@ const WalletPage = () => {
     console.log("useEffect triggered for disconnect - isConnected:", isConnected);
     if (!isConnected) {
       console.log("Navigating to / (disconnect event)");
-      navigate("/"); 
+      navigate("/");
     }
   }, [isConnected, navigate]);
 
   const handleDisconnect = () => {
-    disconnect();  
+    disconnect();
   };
 
   const manualNavigateHome = () => {
     console.log("Manually navigating to home");
-    navigate("/"); 
+    navigate("/");
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white">
       {!isConnected ? (
-        <Disconnected />  
+        <Disconnected />
       ) : (
         <>
           <ConnectedView />
-          <button onClick={handleDisconnect} className="bg-red-500 text-white px-4 py-2 rounded mt-4">
+          <button
+            onClick={handleDisconnect}
+            className="bg-red-500 text-white px-4 py-2 rounded mt-4 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:bg-red-600"
+          >
             Disconnect Wallet
           </button>
-          <button onClick={manualNavigateHome} className="bg-green-500 text-white px-4 py-2 rounded mt-4">
+          <button
+            onClick={manualNavigateHome}
+            className="bg-green-500 text-white px-4 py-2 rounded mt-4 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:bg-green-600"
+          >
             Go to Home (Manual)
           </button>
         </>
