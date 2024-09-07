@@ -10,7 +10,7 @@ const ScoreCount = ({ walletData }) => {
         const totalScore =
           (walletData.score || 0) +
           (walletData.transactions / 10 || 0) +
-          (walletData.usdBalance / 5 || 0) +
+          (walletData.usdBalance / 5 || 0) +  
           (walletData.ethBalance / 2 || 0) +
           (walletData.erc20Count / 150 || 0);
           (walletData.nftCount / 150 || 0);
