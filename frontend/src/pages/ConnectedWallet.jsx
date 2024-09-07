@@ -7,7 +7,7 @@ import CheckYourScore from "../components/CheckYourScore";
 import zkLogo from "../assets/zk-logo.png";
 import optimismLogo from "../assets/optimism-logo.png";
 import scrollLogo from "../assets/scroll-logo.png";
-import lineaLogo from "../assets/linea-logo.png";
+import mainnetLogo from "../assets/mainnet-logo.png";
 import arbitrumLogo from "../assets/arbitrum-logo.png";
 import leftVector from '../assets/left-vector.png';
 import rightVector from '../assets/right-vector.png';
@@ -30,7 +30,7 @@ const networks = [
   },
   { 
     name: "Mainnet", 
-    logo: lineaLogo, 
+    logo: mainnetLogo, 
     transactions: ["LnTx 0001", "LnTx 0002"] 
   },
   {
