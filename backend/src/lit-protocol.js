@@ -63,7 +63,8 @@ export async function executeInLit (userAddress) {
                 MORALIS_API_KEY: process.env.MORALIS_API_KEY,
             }
         }); res = await JSON.parse(res.response);
-        console.log(res);
+        
+        return res;
     } catch (error) {
         console.error(error);
     }

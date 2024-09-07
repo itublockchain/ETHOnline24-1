@@ -1,4 +1,5 @@
-import { attest } from "./sign";
+import { executeInLit } from "./lit-protocol.js";
+// import { attest } from "./sign";
 
 import express from 'express';
 import cors from 'cors';
@@ -16,45 +17,10 @@ app.post('/get-analytics', async (req, res) => {
     const userAddress = req.body.userAddress;
     console.log(`Analytics of ${userAddress} is calculating..`);
 
+    const userAnalytics = await executeInLit(userAddress);
+
     // attest(res.score); <- userAddress as input
 
-    res.send({
-        totalScore : 100,
-        mainnet : {
-            score : 36,
-            txCount : 22,
-            dollarBalance : 263548,
-            totalNFT : 2,
-            totalERC20 : 6, 
-        },
-        arbitrum : {
-            score : 23,
-            txCount : 22,
-            dollarBalance : 263548,
-            totalNFT : 2,
-            totalERC20 : 6, 
-        },
-        zksync : {
-            score : 12,
-            txCount : 12,
-            dollarBalance : 26,
-            totalNFT : 1,
-            totalERC20 : 2, 
-        },
-        scroll : {
-            score : 30,
-            txCount : 23,
-            dollarBalance : 248,
-            totalNFT : 25,
-            totalERC20 : 6, 
-        },
-        optimism : {
-            score : 92,
-            txCount : 221,
-            dollarBalance : 2650,
-            totalNFT : 8,
-            totalERC20 : 13, 
-        }
-    });
+    res.send(userAnalytics);
     
 });
