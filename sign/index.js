@@ -51,6 +51,6 @@ async function attest(_score) {
     return attestationInfo.attestationId;
 }
 
-attest(5).then((response) => console.log(response));
+//attest(5).then((response) => console.log(response));
 
 export { attest };
