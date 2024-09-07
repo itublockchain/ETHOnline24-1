@@ -1,40 +1,56 @@
-import {
-    SignProtocolClient,
-    SpMode,
-    EvmChains,
-    OffChainSignType,
-  } from "@ethsign/sp-sdk";
-  import { privateKeyToAccount } from "viem/accounts";
-  const privateKey = "0x..."; // Optional
-  const client = new SignProtocolClient(SpMode.OffChain, {
-    signType: OffChainSignType.EvmEip712,
-    account: privateKeyToAccount(privateKey), // Optional
+import { ethers } from "ethers";
+import { SignProtocolClient, SpMode, EvmChains } from "@ethsign/sp-sdk";
+import { privateKeyToAccount } from "viem/accounts";
+
+
+const privateKey = "0x..."; // Private key
+const client = new SignProtocolClient(SpMode.OnChain, {
+    chain: EvmChains.sepolia,
+    account: privateKeyToAccount(privateKey), // Optional if you are using an injected provider
   });
-  
-  async function attest(_score) {
-    if(_score===undefined){
-        throw new Error("Score undefined")
+
+
+
+const hookContractAddress = "0xacbdAa5175f07f8A042Ebf24281e838c11709Cc9"; // MyAttestationHook kontrat adresi
+const hookContractAbi = [
+    "function didReceiveAttestation(address attester, uint64 schemaId, uint64 attestationId, bytes  extraData) external payable"
+];
+
+
+
+async function attest(_score) {
+
+    if (_score === undefined) {
+        throw new Error("Score undefined");
     }
 
-  // Create schema
-  const schemaInfo = await client.createSchema({
-    name: "score",
-    data: [{ name: "score", type: "uint256" }],
-  });
-  
-  console.log(schemaInfo)
+    const encodedScore = ethers.utils.defaultAbiCoder.encode(["uint256"], [_score]);
+    console.log("Encoded Score with ethers.js:", encodedScore);
+    console.log("Encoded Score Length:", encodedScore.length);
+   
+    // Schema oluşturma sırasında hook'u belirtin
+    const schemaInfo = await client.createSchema({
+        name: "score",
+        data: [{ name: "score", type: "uint256" }],
+        hook: hookContractAddress  // Burada Hook kontrat adresini belirtin
+    });
 
-  // Create attestation
-  const attestationInfo = await client.createAttestation({
-    schemaId: schemaInfo.schemaId, 
-    data: { score: _score },
-    indexingValue: "score",
-  });
-  
-  console.log(attestationInfo)
-  return  attestationInfo.attestationId
-  }
+    console.log(schemaInfo);
 
-  //attest(5).then((response) => console.log(response))
+    // Attestation oluşturma
+    const attestationInfo = await client.createAttestation({
+        schemaId: schemaInfo.schemaId,
+        data: { score: _score },
+        indexingValue: "score",
+    },{
+        extraData:encodedScore
+    });
 
-  export { attest }
+    console.log(attestationInfo);
+
+    return attestationInfo.attestationId;
+}
+
+attest(5).then((response) => console.log(response));
+
+export { attest };
