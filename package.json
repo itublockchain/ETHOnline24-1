@@ -5,7 +5,7 @@
   "author": "itublockchain",
   "license": "MIT",
   "scripts": {
-    "download": "cd backend && yarn && cd ../frontend && yarn && cd ../sign && yarn && cd ..",
+    "download": "cd backend && yarn && cd ../frontend && yarn && cd ../smart-contract && yarn && cd ..",
     "frontend": "cd frontend && yarn dev && cd ..",
     "test-sign": "cd backend && yarn test-sign && cd ..",
     "test-lit": "cd backend && yarn test-lit && cd ..",
