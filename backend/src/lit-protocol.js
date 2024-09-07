@@ -10,7 +10,7 @@ const pinata = new PinataSDK({
     pinataGateway: process.env.IPFS_GATEWAY,
 });
 
-export async function executeInLit () {
+export async function executeInLit (userAddress) {
 
     const ethersSigner = new ethers.Wallet(
         process.env.PRIVATE_KEY,
@@ -59,7 +59,7 @@ export async function executeInLit () {
             sessionSigs,
             code: data.data,
             jsParams: {
-                userAddress: "0xdaEeC8D17dB2d5d94CaD17a1ce2D32c5e0Df9dDe"
+                userAddress: userAddress
             }
         }); res = await JSON.parse(res.response);
         console.log(res);
