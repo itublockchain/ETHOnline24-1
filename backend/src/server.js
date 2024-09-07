@@ -1,3 +1,5 @@
+import { attest } from "./sign";
+
 import express from 'express';
 import cors from 'cors';
 
@@ -13,6 +15,8 @@ app.post('/get-analytics', async (req, res) => {
     
     const userAddress = req.body.userAddress;
     console.log(`Analytics of ${userAddress} is calculating..`);
+
+    // attest(res.score); <- userAddress as input
 
     res.send({
         totalScore : 100,

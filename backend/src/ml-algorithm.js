@@ -1,6 +1,6 @@
 async function getTransactions(_chainURL, _address) {
     
-    //  30 Transactions per query for ENVIO
+    // 30 Transactions per query for ENVIO
 
     let fromTransactions = await fetch(_chainURL, {
         method: 'POST',
@@ -54,65 +54,108 @@ async function getTransactions(_chainURL, _address) {
 
 }
 
-(async () => {
+async function getERC20s(_chain, _address, _apiKey) {
 
-    const ethereumTransactions = await getTransactions("https://eth.hypersync.xyz/query", userAddress);
-    const arbitrumTransactions = await getTransactions("https://arbitrum.hypersync.xyz/query", userAddress);
-    const zksyncTransactions = await getTransactions("https://zksync.hypersync.xyz/query", userAddress);
-    const scrollTransactions = await getTransactions("https://scroll.hypersync.xyz/query", userAddress);
-    const optimismTransactions = await getTransactions("https://optimism.hypersync.xyz/query", userAddress);
-
-    const ethereumProvider = new ethers.providers.JsonRpcProvider('https://eth.llamarpc.com');
-    const arbitrumProvider = new ethers.providers.JsonRpcProvider('https://arb1.arbitrum.io/rpc');
-    const zksyncProvider = new ethers.providers.JsonRpcProvider('https://1rpc.io/zksync2-era');
-    const scrollProvider = new ethers.providers.JsonRpcProvider('https://scroll.drpc.org');
-    const optimismProvider = new ethers.providers.JsonRpcProvider('https://mainnet.optimism.io');
+    const output = [];
+    let response = await fetch(`https://deep-index.moralis.io/api/v2.2/wallets/${_address}/tokens?chain=${_chain}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'X-API-Key': _apiKey
+        }    
+    }); response = await response.json();
     
-    const ethereumBalance = ethers.utils.formatEther(await ethereumProvider.getBalance(userAddress));
-    const arbitrumBalance = ethers.utils.formatEther(await arbitrumProvider.getBalance(userAddress));
-    const zksyncBalance = ethers.utils.formatEther(await zksyncProvider.getBalance(userAddress));
-    const scrollBalance = ethers.utils.formatEther(await scrollProvider.getBalance(userAddress));
-    const optimismBalance = ethers.utils.formatEther(await optimismProvider.getBalance(userAddress));
-
-    try {
-        const ethereumMoralis = await fetch("https://deep-index.moralis.io/api/v2.2/wallets/0x419c65BD8D14575C1d8Af07734b4ff39599af84f/tokens?chain=eth", {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'X-API-Key': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjEyZDYxMjVhLTU5ZTctNGEyMi04ZTMxLTViNTcyMzU5MzZkZSIsIm9yZ0lkIjoiNDA3NDc1IiwidXNlcklkIjoiNDE4NzA0IiwidHlwZUlkIjoiMmY5ODY0YjgtMDBmNS00NTNhLTlkNDYtMGViNTFmMWFjZjM4IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MjU3MTMwMDcsImV4cCI6NDg4MTQ3MzAwN30.Mn7vpVHZclWCLpbXZAs4i4XdyuDV8Kw2BYa-SYGHaxA"
-            }
+    for (let token of response.result) {
+        output.push({
+            name: token.name,
+            symbol: token.symbol,
+            usd_value: (token.usd_value != null) ? token.usd_value : 0,
         });
-
-        console.log(ethereumMoralis.response);
-        LitActions.setResponse({response: JSON.stringify({
-            ethereumMoralis: ethereumMoralis.data,
-        })});
-    } catch (error) {
-        LitActions.setResponse({response: JSON.stringify({
-            error: error
-        })});;    
     }
 
-    /*LitActions.setResponse({response: JSON.stringify({
-        ethereum: {
-            balance: ethereumBalance,
-            transactions: ethereumTransactions.fromTransactions.length + ethereumTransactions.toTransactions.length
+    return output;
+
+}
+
+async function getNFTs(_chain, _address, _apiKey) {
+
+    const output = [];
+    let response = await fetch(`https://deep-index.moralis.io/api/v2.2/${_address}/nft?chain=${_chain}&format=decimal&media_items=false'`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'X-API-Key': _apiKey
+        }    
+    }); response = await response.json();
+    
+    for (let NFT of response.result) {
+        output.push({
+            name: NFT.name,
+            symbol: NFT.symbol,
+        });
+    }
+
+    return output;
+
+}
+
+(async () => {
+
+    const mainnetTransactions = await getTransactions("https://eth.hypersync.xyz/query", userAddress);
+    const arbitrumTransactions = await getTransactions("https://arbitrum.hypersync.xyz/query", userAddress);
+    // const zksyncTransactions = await getTransactions("https://zksync.hypersync.xyz/query", userAddress);
+    // const scrollTransactions = await getTransactions("https://scroll.hypersync.xyz/query", userAddress);
+    const optimismTransactions = await getTransactions("https://optimism.hypersync.xyz/query", userAddress);
+
+    const mainnetProvider = new ethers.providers.JsonRpcProvider('https://eth.llamarpc.com');
+    const arbitrumProvider = new ethers.providers.JsonRpcProvider('https://arb1.arbitrum.io/rpc');
+    // const zksyncProvider = new ethers.providers.JsonRpcProvider('https://1rpc.io/zksync2-era');
+    // const scrollProvider = new ethers.providers.JsonRpcProvider('https://scroll.drpc.org');
+    const optimismProvider = new ethers.providers.JsonRpcProvider('https://mainnet.optimism.io');
+    
+    const mainnetETHBalance = +(ethers.utils.formatEther(await mainnetProvider.getBalance(userAddress)));
+    const arbitrumETHBalance = +(ethers.utils.formatEther(await arbitrumProvider.getBalance(userAddress)));
+    // const zksyncETHBalance = +(ethers.utils.formatEther(await zksyncProvider.getBalance(userAddress)));
+    // const scrollETHBalance = +(ethers.utils.formatEther(await scrollProvider.getBalance(userAddress)));
+    const optimismETHBalance = +(ethers.utils.formatEther(await optimismProvider.getBalance(userAddress)));
+
+    const mainnetERC20s = await getERC20s("eth", userAddress, MORALIS_API_KEY);
+    const arbitrumERC20s = await getERC20s("arbitrum", userAddress, MORALIS_API_KEY);
+    // const zksyncERC20s = await getERC20s("", userAddress, MORALIS_API_KEY); // Moralis is not supporting zkSync
+    // const scrollERC20s = await getERC20s("", userAddress, MORALIS_API_KEY); // Moralis is not supporting scroll
+    const optimismERC20s = await getERC20s("optimism", userAddress, MORALIS_API_KEY);
+
+    const mainnetNFTs = await getNFTs("eth", userAddress, MORALIS_API_KEY);
+    const arbitrumNFTs = await getNFTs("arbitrum", userAddress, MORALIS_API_KEY);
+    // const zkSyncNFTs = await getNFTs("", userAddress, MORALIS_API_KEY); // Moralis is not supporting zkSync
+    // const scrollNFTs = await getNFTs("", userAddress, MORALIS_API_KEY); // Moralis is not supporting scroll
+    const optimismNFTs = await getNFTs("optimism", userAddress, MORALIS_API_KEY);
+
+    let mainnetUSDBalance = 0; for (let token of mainnetERC20s) { mainnetUSDBalance += token.usd_value; }
+    let arbitrumUSDBalance = 0; for (let token of arbitrumERC20s) { arbitrumUSDBalance += token.usd_value; }
+    let optimismUSDBalance = 0; for (let token of optimismERC20s) { optimismUSDBalance += token.usd_value; }
+
+    LitActions.setResponse({response: JSON.stringify({
+        mainnet: {
+            usdBalance: mainnetUSDBalance,
+            ethBalance: mainnetETHBalance,
+            transactions: mainnetTransactions.fromTransactions.length + mainnetTransactions.toTransactions.length,
+            nftCount: mainnetNFTs.length,
+            erc20Count: mainnetERC20s.length,
         },
         arbitrum: {
-            balance: arbitrumBalance,
-            transactions: arbitrumTransactions.fromTransactions.length + arbitrumTransactions.toTransactions.length
-        },
-        zksync: {
-            balance: zksyncBalance,
-            transactions: zksyncTransactions.fromTransactions.length + zksyncTransactions.toTransactions.length
-        },
-        scroll: {
-            balance: scrollBalance,
-            transactions: scrollTransactions.fromTransactions.length + scrollTransactions.toTransactions.length
+            usdBalance: arbitrumUSDBalance,
+            ethBalance: arbitrumETHBalance,
+            transactions: arbitrumTransactions.fromTransactions.length + arbitrumTransactions.toTransactions.length,
+            nftCount: arbitrumNFTs.length,
+            erc20Count: arbitrumERC20s.length,
         },
         optimism: {
-            balance: optimismBalance,
-            transactions: optimismTransactions.fromTransactions.length + optimismTransactions.toTransactions.length
+            usdBalance: optimismUSDBalance,
+            ethBalance: optimismETHBalance,
+            transactions: optimismTransactions.fromTransactions.length + optimismTransactions.toTransactions.length,
+            nftCount: optimismNFTs.length,
+            erc20Count: optimismERC20s.length,
         }
-    })});*/
+    })});
 })();

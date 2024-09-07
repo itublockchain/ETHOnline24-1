@@ -5,8 +5,6 @@ import { PinataSDK } from "pinata-web3";
 import { ethers } from "ethers";
 import 'dotenv/config';
 
-import { attest } from "./sign";
-
 const pinata = new PinataSDK({
     pinataJwt: process.env.PINATA_JWT,
     pinataGateway: process.env.IPFS_GATEWAY,
@@ -66,9 +64,6 @@ export async function executeInLit (userAddress) {
             }
         }); res = await JSON.parse(res.response);
         console.log(res);
-
-        // attest(res.score); <- userAddress as input
-
     } catch (error) {
         console.error(error);
     }
