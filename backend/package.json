@@ -6,6 +6,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "server": "node ./src/server.js",
+    "test-server": "node ./tests/test-server.js",
     "test-sign": "node ./tests/test-sign.js",
     "test-lit": "node ./tests/test-lit-protocol.js",
     "upload-ipfs": "node ./src/upload-ipfs.js"
@@ -16,8 +18,10 @@
     "@lit-protocol/constants": "^6.4.10",
     "@lit-protocol/lit-node-client": "^6.4.10",
     "buffer": "^6.0.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "ethers": "^5.7.2",
+    "express": "^4.19.2",
     "fs": "^0.0.1-security",
     "pinata-web3": "^0.4.1",
     "viem": "^2.21.3"
