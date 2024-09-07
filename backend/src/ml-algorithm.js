@@ -103,59 +103,93 @@ async function getNFTs(_chain, _address, _apiKey) {
 
     const mainnetTransactions = await getTransactions("https://eth.hypersync.xyz/query", userAddress);
     const arbitrumTransactions = await getTransactions("https://arbitrum.hypersync.xyz/query", userAddress);
-    // const zksyncTransactions = await getTransactions("https://zksync.hypersync.xyz/query", userAddress);
-    // const scrollTransactions = await getTransactions("https://scroll.hypersync.xyz/query", userAddress);
     const optimismTransactions = await getTransactions("https://optimism.hypersync.xyz/query", userAddress);
+    // const baseTransactions = await getTransactions("https://base.hypersync.xyz/query", userAddress);
+    // const gnosisTransactions = await getTransactions("https://gnosis.hypersync.xyz/query", userAddress);
 
     const mainnetProvider = new ethers.providers.JsonRpcProvider('https://eth.llamarpc.com');
     const arbitrumProvider = new ethers.providers.JsonRpcProvider('https://arb1.arbitrum.io/rpc');
-    // const zksyncProvider = new ethers.providers.JsonRpcProvider('https://1rpc.io/zksync2-era');
-    // const scrollProvider = new ethers.providers.JsonRpcProvider('https://scroll.drpc.org');
     const optimismProvider = new ethers.providers.JsonRpcProvider('https://mainnet.optimism.io');
+    // const baseProvider = new ethers.providers.JsonRpcProvider('https://base.llamarpc.com');
+    // const gnosisProvider = new ethers.providers.JsonRpcProvider('https://rpc.gnosis.gateway.fm');
     
     const mainnetETHBalance = +(ethers.utils.formatEther(await mainnetProvider.getBalance(userAddress)));
     const arbitrumETHBalance = +(ethers.utils.formatEther(await arbitrumProvider.getBalance(userAddress)));
-    // const zksyncETHBalance = +(ethers.utils.formatEther(await zksyncProvider.getBalance(userAddress)));
-    // const scrollETHBalance = +(ethers.utils.formatEther(await scrollProvider.getBalance(userAddress)));
     const optimismETHBalance = +(ethers.utils.formatEther(await optimismProvider.getBalance(userAddress)));
+    // const baseETHBalance = +(ethers.utils.formatEther(await baseProvider.getBalance(userAddress)));
+    // const gnosisETHBalance = +(ethers.utils.formatEther(await gnosisProvider.getBalance(userAddress)));
 
     const mainnetERC20s = await getERC20s("eth", userAddress, MORALIS_API_KEY);
     const arbitrumERC20s = await getERC20s("arbitrum", userAddress, MORALIS_API_KEY);
-    // const zksyncERC20s = await getERC20s("", userAddress, MORALIS_API_KEY); // Moralis is not supporting zkSync
-    // const scrollERC20s = await getERC20s("", userAddress, MORALIS_API_KEY); // Moralis is not supporting scroll
     const optimismERC20s = await getERC20s("optimism", userAddress, MORALIS_API_KEY);
+    // const baseERC20s = await getERC20s("base", userAddress, MORALIS_API_KEY);
+    // const gnosisERC20s = await getERC20s("gnosis", userAddress, MORALIS_API_KEY);
 
     const mainnetNFTs = await getNFTs("eth", userAddress, MORALIS_API_KEY);
     const arbitrumNFTs = await getNFTs("arbitrum", userAddress, MORALIS_API_KEY);
-    // const zkSyncNFTs = await getNFTs("", userAddress, MORALIS_API_KEY); // Moralis is not supporting zkSync
-    // const scrollNFTs = await getNFTs("", userAddress, MORALIS_API_KEY); // Moralis is not supporting scroll
     const optimismNFTs = await getNFTs("optimism", userAddress, MORALIS_API_KEY);
+    // const baseNFTs = await getNFTs("base", userAddress, MORALIS_API_KEY);
+    // const gnosisNFTs = await getNFTs("gnosis", userAddress, MORALIS_API_KEY);
 
     let mainnetUSDBalance = 0; for (let token of mainnetERC20s) { mainnetUSDBalance += token.usd_value; }
     let arbitrumUSDBalance = 0; for (let token of arbitrumERC20s) { arbitrumUSDBalance += token.usd_value; }
     let optimismUSDBalance = 0; for (let token of optimismERC20s) { optimismUSDBalance += token.usd_value; }
+    // let baseUSDBalance = 0; for (let token of baseERC20s) { baseUSDBalance += token.usd_value; }
+    // let gnosisUSDBalance = 0; for (let token of gnosisERC20s) { gnosisUSDBalance += token.usd_value; }
+
+    const totalUSDBalance = mainnetUSDBalance + arbitrumUSDBalance + optimismUSDBalance; // + baseUSDBalance + gnosisUSDBalance;
+    const totalETHBalance = mainnetETHBalance + arbitrumETHBalance + optimismETHBalance; // + baseETHBalance + gnosisETHBalance;
+    const totalTransactions = mainnetTransactions.fromTransactions.length + mainnetTransactions.toTransactions.length 
+                          + arbitrumTransactions.fromTransactions.length + arbitrumTransactions.toTransactions.length 
+                          + optimismTransactions.fromTransactions.length + optimismTransactions.toTransactions.length;
+                          // + baseTransactions.fromTransactions.length + baseTransactions.toTransactions.length 
+                          // + gnosisTransactions.fromTransactions.length + gnosisTransactions.toTransactions.length;
+
+    const totalERC20s = [...mainnetERC20s, ...arbitrumERC20s, ...optimismERC20s, /*...baseERC20s, ...gnosisERC20s*/];
+    const totalNFTs = [...mainnetNFTs, ...arbitrumNFTs, ...optimismNFTs, /*...baseNFTs, ...gnosisNFTs*/];
 
     LitActions.setResponse({response: JSON.stringify({
+        total: {
+            transactions: totalTransactions,
+            usdBalance: totalUSDBalance,
+            ethBalance: totalETHBalance,
+            erc20Count: totalERC20s.length,
+            nftCount: totalNFTs.length,
+        },
         mainnet: {
+            transactions: mainnetTransactions.fromTransactions.length + mainnetTransactions.toTransactions.length,
             usdBalance: mainnetUSDBalance,
             ethBalance: mainnetETHBalance,
-            transactions: mainnetTransactions.fromTransactions.length + mainnetTransactions.toTransactions.length,
-            nftCount: mainnetNFTs.length,
             erc20Count: mainnetERC20s.length,
+            nftCount: mainnetNFTs.length,
         },
         arbitrum: {
+            transactions: arbitrumTransactions.fromTransactions.length + arbitrumTransactions.toTransactions.length,
             usdBalance: arbitrumUSDBalance,
             ethBalance: arbitrumETHBalance,
-            transactions: arbitrumTransactions.fromTransactions.length + arbitrumTransactions.toTransactions.length,
-            nftCount: arbitrumNFTs.length,
             erc20Count: arbitrumERC20s.length,
+            nftCount: arbitrumNFTs.length,
         },
         optimism: {
+            transactions: optimismTransactions.fromTransactions.length + optimismTransactions.toTransactions.length,
             usdBalance: optimismUSDBalance,
             ethBalance: optimismETHBalance,
-            transactions: optimismTransactions.fromTransactions.length + optimismTransactions.toTransactions.length,
-            nftCount: optimismNFTs.length,
             erc20Count: optimismERC20s.length,
-        }
+            nftCount: optimismNFTs.length,
+        },
+        // base: {
+        //     transactions: baseTransactions.fromTransactions.length + baseTransactions.toTransactions.length,
+        //     usdBalance: baseUSDBalance,
+        //     ethBalance: baseETHBalance,
+        //     erc20Count: baseERC20s.length,
+        //     nftCount: baseNFTs.length,
+        // },
+        // gnosis: {
+        //     transactions: gnosisTransactions.fromTransactions.length + gnosisTransactions.toTransactions.length,
+        //     usdBalance: gnosisUSDBalance,
+        //     ethBalance: gnosisETHBalance,
+        //     erc20Count: gnosisERC20s.length,
+        //     nftCount: gnosisNFTs.length,
+        // }
     })});
 })();
