@@ -12,16 +12,20 @@ const client = new SignProtocolClient(SpMode.OnChain, {
     account: privateKeyToAccount('0x' + process.env.PRIVATE_KEY),
 });
 
-export async function attest(_score) {
+export async function attest(_score,_recipient) {
     
     if (_score === undefined) {
         throw new Error("Score undefined");
     }
 
-    const encodedScore = ethers.utils.defaultAbiCoder.encode(["uint256"], [_score]);
-    console.log("Encoded Score with ethers.js:", encodedScore);
-    console.log("Encoded Score Length:", encodedScore.length);
-   
+    // const encodedScore = ethers.utils.defaultAbiCoder.encode(["uint256"], [_score]);
+    // console.log("Encoded Score with ethers.js:", encodedScore);
+    // console.log("Encoded Score Length:", encodedScore.length);
+
+    const encodedData = ethers.utils.defaultAbiCoder.encode(
+      ["uint256", "address"],
+      [_score, _recipient]
+    );
     // Schema oluşturma sırasında hook'u belirtin
     const schemaInfo = await client.createSchema({
         name: "score",
@@ -34,10 +38,10 @@ export async function attest(_score) {
     // Attestation oluşturma
     const attestationInfo = await client.createAttestation({
         schemaId: schemaInfo.schemaId,
-        data: { score: _score },
-        indexingValue: "score",
+        data: { score: _score},
+        indexingValue: "score"
     },{
-        extraData:encodedScore
+        extraData:encodedData
     });
 
     console.log(attestationInfo);

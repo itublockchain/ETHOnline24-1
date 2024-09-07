@@ -261,7 +261,7 @@
       ],
       "name": "approve",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "pure",
       "type": "function"
     },
     {
@@ -300,12 +300,22 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_attester",
+          "name": "attester",
           "type": "address"
         },
         {
+          "internalType": "uint64",
+          "name": "schemaId",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint64",
+          "name": "attestationId",
+          "type": "uint64"
+        },
+        {
           "internalType": "bytes",
-          "name": "_extraData",
+          "name": "extraData",
           "type": "bytes"
         }
       ],
@@ -361,7 +371,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_to",
+          "name": "to",
           "type": "address"
         },
         {
@@ -421,6 +431,32 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "ownr",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "recipient",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -462,13 +498,13 @@
         },
         {
           "internalType": "bytes",
-          "name": "data",
+          "name": "_data",
           "type": "bytes"
         }
       ],
       "name": "safeTransferFrom",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "pure",
       "type": "function"
     },
     {
@@ -499,7 +535,7 @@
       ],
       "name": "setApprovalForAll",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "pure",
       "type": "function"
     },
     {
@@ -573,7 +609,7 @@
       ],
       "name": "transferFrom",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "pure",
       "type": "function"
     }
   ]
