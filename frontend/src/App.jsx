@@ -5,7 +5,6 @@ import Homepage from "./pages/Homepage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ConnectedWallet from "./pages/ConnectedWallet";
 import Web3Provider from "./components/Web3Provider";
-import WalletPage from "./components/WalletPage";
 import ScrollScore from "./pages/ScrollScore";
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Homepage />} />
             <Route path="connected-wallet" element={<ConnectedWallet />} />
-            <Route path="wallet" element={<WalletPage />} />
             <Route path="scroll-score" element={<ScrollScore />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>

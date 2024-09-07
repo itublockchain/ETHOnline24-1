@@ -8,11 +8,12 @@ const ScoreCount = ({ walletData }) => {
       
       const calculateGeneralScore = () => {
         const totalScore =
-          (walletData.tx || 0) +
-          (walletData.balance / 10 || 0) +
-          (walletData.erc20_721 / 5 || 0) +
-          (walletData.uniqueContract / 2 || 0) +
-          (walletData.tokenNumber / 150 || 0);
+          (walletData.score || 0) +
+          (walletData.transactions / 10 || 0) +
+          (walletData.usdBalance / 5 || 0) +
+          (walletData.ethBalance / 2 || 0) +
+          (walletData.erc20Count / 150 || 0);
+          (walletData.nftCount / 150 || 0);
         setGeneralScore(Math.floor(totalScore));
       };
 

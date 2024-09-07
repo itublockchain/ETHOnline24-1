@@ -4,29 +4,18 @@ import { useNavigate } from "react-router-dom";
 import LayerTwo from "../components/LayerTwo";
 import ScoreCount from "../components/ScoreCount";
 import CheckYourScore from "../components/CheckYourScore";
-import zkLogo from "../assets/zk-logo.png";
 import optimismLogo from "../assets/optimism-logo.png";
-import scrollLogo from "../assets/scroll-logo.png";
 import mainnetLogo from "../assets/mainnet-logo.png";
 import arbitrumLogo from "../assets/arbitrum-logo.png";
 import leftVector from "../assets/left-vector.png";
 import rightVector from "../assets/right-vector.png";
 
 const networks = [
-  {
-    name: "zkSync",
-    logo: zkLogo,
-    transactions: ["zkTx 0001", "zkTx 0002", "zkTx 0003", "zKTx 0004"],
-  },
+ 
   {
     name: "Optimism",
     logo: optimismLogo,
     transactions: ["OpTx 0001", "OpTx 0002"],
-  },
-  {
-    name: "Scroll",
-    logo: scrollLogo,
-    transactions: ["ScTx 0001", "ScTx 0002"],
   },
   {
     name: "Mainnet",
