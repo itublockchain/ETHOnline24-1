@@ -1,38 +1,46 @@
-import {
-    SignProtocolClient,
-    SpMode,
-    EvmChains,
-    OffChainSignType,
-} from "@ethsign/sp-sdk";
-  
-// import { privateKeyToAccount } from "viem/accounts";
-  
-// const privateKey = "0x..."; // Optional
-const client = new SignProtocolClient(SpMode.OffChain, {
-    signType: OffChainSignType.EvmEip712,
-    // account: privateKeyToAccount(privateKey), // Optional
+import { SignProtocolClient, SpMode, EvmChains } from "@ethsign/sp-sdk";
+import { privateKeyToAccount } from "viem/accounts";
+import { ethers } from "ethers";
+import 'dotenv/config';
+import fs from 'fs';
+
+const hookContractAddress = JSON.parse(fs.readFileSync('./src/sign-contract/contract-address.json')).address; // MyAttestationHook Contract Address
+const hookContractAbi = JSON.parse(fs.readFileSync('./src/sign-contract/contract-abi.json')).abi; // MyAttestationHook Contract ABI
+
+const client = new SignProtocolClient(SpMode.OnChain, {
+    chain: EvmChains.sepolia,
+    account: privateKeyToAccount('0x' + process.env.PRIVATE_KEY),
 });
-  
+
 export async function attest(_score) {
-    if(_score===undefined){
-        throw new Error("Score undefined")
+    
+    if (_score === undefined) {
+        throw new Error("Score undefined");
     }
 
-    // Create schema
+    const encodedScore = ethers.utils.defaultAbiCoder.encode(["uint256"], [_score]);
+    console.log("Encoded Score with ethers.js:", encodedScore);
+    console.log("Encoded Score Length:", encodedScore.length);
+   
+    // Schema oluşturma sırasında hook'u belirtin
     const schemaInfo = await client.createSchema({
         name: "score",
         data: [{ name: "score", type: "uint256" }],
+        hook: hookContractAddress  // Burada Hook kontrat adresini belirtin
     });
-  
-    console.log(schemaInfo)
 
-    // Create attestation
+    console.log(schemaInfo);
+
+    // Attestation oluşturma
     const attestationInfo = await client.createAttestation({
-        schemaId: schemaInfo.schemaId, 
+        schemaId: schemaInfo.schemaId,
         data: { score: _score },
         indexingValue: "score",
+    },{
+        extraData:encodedScore
     });
-  
-    console.log(attestationInfo)
-    return  attestationInfo.attestationId
+
+    console.log(attestationInfo);
+
+    return attestationInfo.attestationId;
 }
