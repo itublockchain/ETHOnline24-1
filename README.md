@@ -5,7 +5,7 @@ Persona is a platform that allows users to connect their Web3 wallets and view t
 ## Features
 - **Web3 Wallet Connection**: Users can connect their Web3 wallets and view activities on different Layer 2 networks.
 - **Dynamic Score Calculation**: Wallet data (transactions, balance, tokens, etc.) is dynamically fetched and used to calculate the user’s score.
-- **Layer 2 Network Selection**: Supports popular Layer 2 networks like zkSync, Optimism, Scroll, Linea, and Arbitrum.
+- **Layer 2 Network Selection**: Supports popular Layer 2 networks like zkSync, Optimism, Scroll, Mainnet, and Arbitrum.
 - **Responsive Design**: The platform is designed to be fully responsive and compatible with all device types.
 - **404 Not Found Page**: Customized error page for non-existent routes within the project.
 

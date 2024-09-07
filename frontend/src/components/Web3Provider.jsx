@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider, createConfig } from 'wagmi';
 import { ConnectKitProvider } from 'connectkit';
-import { mainnet, polygon, optimism, arbitrum, linea } from 'wagmi/chains';
+import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
 
 const queryClient = new QueryClient();
 
@@ -10,7 +10,7 @@ const config = createConfig({
   connectors: [
     // Wallet Connectors 
   ],
-  chains: [mainnet, polygon, optimism, arbitrum, linea],
+  chains: [mainnet, polygon, optimism, arbitrum],
 });
 
 const Web3Provider = ({ children }) => {

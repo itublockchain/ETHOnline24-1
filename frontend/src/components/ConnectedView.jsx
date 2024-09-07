@@ -28,7 +28,7 @@ const ConnectedView = () => {
 
       {/* Layer 2 Technologies */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-5xl mx-auto">
-        {["zkSync", "Optimism", "Scroll", "Linea", "Arbitrum"].map((tech, index) => (
+        {["zkSync", "Optimism", "Scroll", "Mainnet", "Arbitrum"].map((tech, index) => (
           <div
             key={index}
             className="bg-gray-800 p-6 rounded-lg text-center hover:bg-gray-700 hover:scale-105 transition-transform duration-300 ease-in-out"

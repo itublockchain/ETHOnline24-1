@@ -7,3 +7,8 @@ frontend/node_modules
 frontend/yarn.lock
 frontend/package-lock.json
 frontend/.env
+
+sign/node_modules
+sign/yarn.lock
+sign/package-lock.json
+sign/.env

@@ -29,7 +29,7 @@ const networks = [
     transactions: ["ScTx 0001", "ScTx 0002"],
   },
   { 
-    name: "Linea", 
+    name: "Mainnet", 
     logo: lineaLogo, 
     transactions: ["LnTx 0001", "LnTx 0002"] 
   },
