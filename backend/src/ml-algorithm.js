@@ -101,6 +101,12 @@ async function getNFTs(_chain, _address, _apiKey) {
 
 (async () => {
 
+    const IDEAL_TRANSCATION_COUNT = 50;
+    const IDEAL_USD_BALANCE = 200;
+    const IDEAL_ETH_BALANCE = 0.1;
+    const IDEAL_ERC20_COUNT =  15;
+    const IDEAL_NFT_COUNT =  30;
+
     const mainnetTransactions = await getTransactions("https://eth.hypersync.xyz/query", userAddress);
     const arbitrumTransactions = await getTransactions("https://arbitrum.hypersync.xyz/query", userAddress);
     const optimismTransactions = await getTransactions("https://optimism.hypersync.xyz/query", userAddress);
@@ -148,15 +154,49 @@ async function getNFTs(_chain, _address, _apiKey) {
     const totalERC20s = [...mainnetERC20s, ...arbitrumERC20s, ...optimismERC20s, /*...baseERC20s, ...gnosisERC20s*/];
     const totalNFTs = [...mainnetNFTs, ...arbitrumNFTs, ...optimismNFTs, /*...baseNFTs, ...gnosisNFTs*/];
 
+    const mainnetScore = ((mainnetTransactions.fromTransactions.length + mainnetTransactions.toTransactions.length)/IDEAL_TRANSCATION_COUNT) * 30 
+                       + (mainnetUSDBalance/IDEAL_USD_BALANCE) * 20 
+                       + (mainnetETHBalance/IDEAL_ETH_BALANCE) * 30 
+                       + (mainnetERC20s.length/IDEAL_ERC20_COUNT) * 10 
+                       + (mainnetNFTs.length/IDEAL_NFT_COUNT) * 10;
+
+    const arbitrumScore = ((arbitrumTransactions.fromTransactions.length + arbitrumTransactions.toTransactions.length)/IDEAL_TRANSCATION_COUNT) * 30
+                        + (arbitrumUSDBalance/IDEAL_USD_BALANCE) * 20
+                        + (arbitrumETHBalance/IDEAL_ETH_BALANCE) * 30
+                        + (arbitrumERC20s.length/IDEAL_ERC20_COUNT) * 10
+                        + (arbitrumNFTs.length/IDEAL_NFT_COUNT) * 10;
+
+    const optimismScore = ((optimismTransactions.fromTransactions.length + optimismTransactions.toTransactions.length)/IDEAL_TRANSCATION_COUNT) * 30
+                        + (optimismUSDBalance/IDEAL_USD_BALANCE) * 20
+                        + (optimismETHBalance/IDEAL_ETH_BALANCE) * 30
+                        + (optimismERC20s.length/IDEAL_ERC20_COUNT) * 10
+                        + (optimismNFTs.length/IDEAL_NFT_COUNT) * 10;
+
+    // const baseScore = ((baseTransactions.fromTransactions.length + baseTransactions.toTransactions.length)/IDEAL_TRANSCATION_COUNT) * 30
+                        //  + (baseUSDBalance/IDEAL_USD_BALANCE) * 20
+                        //  + (baseETHBalance/IDEAL_ETH_BALANCE) * 30
+                        //  + (baseERC20s.length/IDEAL_ERC20_COUNT) * 10
+                        //  + (baseNFTs.length/IDEAL_NFT_COUNT) * 10;
+
+    // const gnosisScore = ((gnosisTransactions.fromTransactions.length + gnosisTransactions.toTransactions.length)/IDEAL_TRANSCATION_COUNT) * 30
+                        //  + (gnosisUSDBalance/IDEAL_USD_BALANCE) * 20
+                        //  + (gnosisETHBalance/IDEAL_ETH_BALANCE) * 30
+                        //  + (gnosisERC20s.length/IDEAL_ERC20_COUNT) * 10
+                        //  + (gnosisNFTs.length/IDEAL_NFT_COUNT) * 10;
+
+    const totalScore = (mainnetScore + arbitrumScore + optimismScore /*+ baseScore + gnosisScore*/) / 3;
+    
     LitActions.setResponse({response: JSON.stringify({
         total: {
+            score: totalScore,
             transactions: totalTransactions,
             usdBalance: totalUSDBalance,
             ethBalance: totalETHBalance,
             erc20Count: totalERC20s.length,
-            nftCount: totalNFTs.length,
+            nftCount: totalNFTs.length
         },
         mainnet: {
+            score: mainnetScore,
             transactions: mainnetTransactions.fromTransactions.length + mainnetTransactions.toTransactions.length,
             usdBalance: mainnetUSDBalance,
             ethBalance: mainnetETHBalance,
@@ -164,6 +204,7 @@ async function getNFTs(_chain, _address, _apiKey) {
             nftCount: mainnetNFTs.length,
         },
         arbitrum: {
+            score: arbitrumScore,
             transactions: arbitrumTransactions.fromTransactions.length + arbitrumTransactions.toTransactions.length,
             usdBalance: arbitrumUSDBalance,
             ethBalance: arbitrumETHBalance,
@@ -171,6 +212,7 @@ async function getNFTs(_chain, _address, _apiKey) {
             nftCount: arbitrumNFTs.length,
         },
         optimism: {
+            score: optimismScore,
             transactions: optimismTransactions.fromTransactions.length + optimismTransactions.toTransactions.length,
             usdBalance: optimismUSDBalance,
             ethBalance: optimismETHBalance,
@@ -178,6 +220,7 @@ async function getNFTs(_chain, _address, _apiKey) {
             nftCount: optimismNFTs.length,
         },
         // base: {
+        //     score: baseScore,
         //     transactions: baseTransactions.fromTransactions.length + baseTransactions.toTransactions.length,
         //     usdBalance: baseUSDBalance,
         //     ethBalance: baseETHBalance,
@@ -185,6 +228,7 @@ async function getNFTs(_chain, _address, _apiKey) {
         //     nftCount: baseNFTs.length,
         // },
         // gnosis: {
+        //     score: gnosisScore,
         //     transactions: gnosisTransactions.fromTransactions.length + gnosisTransactions.toTransactions.length,
         //     usdBalance: gnosisUSDBalance,
         //     ethBalance: gnosisETHBalance,
