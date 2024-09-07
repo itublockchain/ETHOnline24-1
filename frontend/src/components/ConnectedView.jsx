@@ -12,7 +12,7 @@ const ConnectedView = () => {
           <p className="text-lg font-semibold">Persona</p>
         </div>
         <div className="text-right">
-          <p className="text-gray-400">Account 1</p>
+          <p className="">Account 1</p>
           {address ? (
             <p className="text-xl font-bold">{address.slice(0, 6)}...{address.slice(-4)}</p>
           ) : (

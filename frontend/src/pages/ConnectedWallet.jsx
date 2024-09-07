@@ -9,8 +9,8 @@ import optimismLogo from "../assets/optimism-logo.png";
 import scrollLogo from "../assets/scroll-logo.png";
 import mainnetLogo from "../assets/mainnet-logo.png";
 import arbitrumLogo from "../assets/arbitrum-logo.png";
-import leftVector from '../assets/left-vector.png';
-import rightVector from '../assets/right-vector.png';
+import leftVector from "../assets/left-vector.png";
+import rightVector from "../assets/right-vector.png";
 
 const networks = [
   {
@@ -28,10 +28,10 @@ const networks = [
     logo: scrollLogo,
     transactions: ["ScTx 0001", "ScTx 0002"],
   },
-  { 
-    name: "Mainnet", 
-    logo: mainnetLogo, 
-    transactions: ["LnTx 0001", "LnTx 0002"] 
+  {
+    name: "Mainnet",
+    logo: mainnetLogo,
+    transactions: ["LnTx 0001", "LnTx 0002"],
   },
   {
     name: "Arbitrum",
@@ -43,7 +43,7 @@ const networks = [
 const ConnectedWallet = () => {
   const { isConnected, address } = useAccount();
   const navigate = useNavigate();
-  
+
   // walletData state
   const [walletData, setWalletData] = useState({
     tx: 0,
@@ -64,12 +64,16 @@ const ConnectedWallet = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-b from-gray-900 via-blue-900 to-black text-white pt-12">
+    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-b from-black via-[#19122e] to-black text-white pt-12">
+
+
       <header className="w-full max-w-7xl px-5 mx-auto">
-        <div className="flex flex-col items-center bg-gray-800 p-4 rounded-lg shadow-md">
+        <div className="flex flex-col items-center p-4 rounded-lg shadow-md">
           <p className="text-sm font-semibold text-gray-400">Account 1</p>
           <p className="text-lg font-bold text-white bg-gray-700 py-2 px-4 rounded-lg mt-2">
-            {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Not connected"}
+            {address
+              ? `${address.slice(0, 6)}...${address.slice(-4)}`
+              : "Not connected"}
           </p>
         </div>
       </header>
@@ -86,7 +90,7 @@ const ConnectedWallet = () => {
             key={network.name}
             logo={network.logo}
             name={network.name}
-            onClick={() => handleLayerClick(network)} 
+            onClick={() => handleLayerClick(network)}
           />
         ))}
       </div>
