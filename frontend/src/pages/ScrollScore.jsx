@@ -36,16 +36,16 @@ const ScrollScore = () => {
       {/* Genel Score */}
       <div className="text-center text-6xl my-6 flex items-center justify-center gap-6 mb-12">
         <img src={leftVector} alt="Left vector" className="animate-bounce" />
-        {data?.score}
+        {data?.score.toFixed(2)}
         <img src={rightVector} alt="Right vector" className="animate-bounce" />
       </div>
 
       {/* Score Components */}
       <div className="mt-12 max-w-5xl mx-auto space-y-4">
-        <Score label="Score" transaction={data?.score} />
+        <Score label="Score" transaction={data?.score.toFixed(2)} />
         <Score label="Transaction" transaction={data?.transactions} />
-        <Score label="USD Balance" transaction={data?.usdBalance} />
-        <Score label="ETH Balance" transaction={data?.ethBalance} />
+        <Score label="USD Balance" transaction={data?.usdBalance.toFixed(2)} />
+        <Score label="ETH Balance" transaction={data?.ethBalance.toFixed(2)} />
         <Score label="ERC20 Count" transaction={data?.erc20Count} />
         <Score label="NFT Count" transaction={data?.nftCount} />
       </div>

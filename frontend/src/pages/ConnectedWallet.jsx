@@ -75,7 +75,7 @@ const ConnectedWallet = () => {
       <div className="text-center text-6xl my-6 flex items-center justify-center gap-6 mb-12">
         <img src={leftVector} alt="Left vector" className="animate-pulse" />
         <div className="text-5xl font-bold text-white transition-transform duration-500 ease-in-out transform hover:scale-105">
-          {dataWallet?.total.score ? dataWallet?.total.score : 0}
+          {dataWallet?.total.score ? dataWallet?.total.score.toFixed(2) : 0}
         </div>
         <img src={rightVector} alt="Right vector" className="animate-pulse" />
       </div>

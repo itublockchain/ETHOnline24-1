@@ -9,7 +9,7 @@ const CheckYourScore = ({ dataWallet , setDataWallet }) => {
 
   
 
-  const { data  } = useFetch(
+  const { data, isLoading  } = useFetch(
     "/get-analytics",
     {
       userAddress: address,
@@ -25,7 +25,7 @@ const CheckYourScore = ({ dataWallet , setDataWallet }) => {
     }
     setDataWallet(data)
    
-  }, [isFetch])
+  }, [isFetch, data])
 
   
   console.log(dataWallet , 'Çok yorucu!');
@@ -35,8 +35,8 @@ const CheckYourScore = ({ dataWallet , setDataWallet }) => {
       <button
         onClick={()=> setIsFetch(true)}
         className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 ease-in-out mb-6"
-      >
-        Check Your Score
+        >
+        {isLoading && isFetch == true ? "Loading" : "Check your score"}
       </button>
 
       <div className="flex flex-col gap-6 w-[300px] md:w-[450px] lg:w-[600px]">
@@ -59,7 +59,7 @@ const CheckYourScore = ({ dataWallet , setDataWallet }) => {
               style={{ width: `${Math.min(dataWallet?.usdBalance / 10, 100)}%` }}
             ></div>
           </div>
-          <span className="text-white  ml-4"> {dataWallet?.total.usdBalance}</span>
+          <span className="text-white  ml-4"> {dataWallet?.total.usdBalance.toFixed(2)}</span>
         </div>
 
         <div className="bg-gray-800 p-4 rounded-lg shadow-md flex items-center justify-between gap-4">
@@ -70,7 +70,7 @@ const CheckYourScore = ({ dataWallet , setDataWallet }) => {
               style={{ width: `${Math.min(dataWallet?.ethBalance / 5, 100)}%` }}
             ></div>
           </div>
-          <span className="text-white  ml-4">{dataWallet?.total.ethBalance}</span>
+          <span className="text-white  ml-4">{dataWallet?.total.ethBalance.toFixed(2)}</span>
         </div>
 
         <div className="bg-gray-800 p-4 rounded-lg shadow-md flex items-center justify-between gap-4">
