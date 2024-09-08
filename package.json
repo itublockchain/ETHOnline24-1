@@ -13,6 +13,5 @@
     "test-lit": "cd backend && yarn test-lit && cd ..",
     "upload-ipfs": "cd backend && yarn upload-ipfs && cd ..",
     "contract-deploy": "cd smart-contract && yarn deploy && cd .."
-
   }
 }
