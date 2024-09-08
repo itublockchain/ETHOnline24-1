@@ -23,11 +23,12 @@ const pinata = new PinataSDK({
 
 app.post('/get-analytics', async (req, res) => {
     
-    // const userAddress = req.body.userAddress;
-    const userAddress = "0x419c65BD8D14575C1d8Af07734b4ff39599af84f";
+    const userAddress = req.body.userAddress;
     console.log(`Analytics of ${userAddress} is calculating..`);
 
     const userAnalytics = await executeInLit(userAddress);
+
+    console.log(`Analytics of ${userAddress} is calculated.`);
 
     const blob = new Blob([fs.readFileSync("./src/assets/nft.png")]);
     const file = new File([blob], "image.png", { type: "image/png"})
@@ -41,8 +42,12 @@ app.post('/get-analytics', async (req, res) => {
                       Optimism Score: ${userAnalytics.optimism.score}`,
     })).IpfsHash;
 
+    console.log(`Token URI is ${tokenURI}`);
+
     await attest(parseInt(userAnalytics.total.score), userAddress, tokenURI);
     // TODO: score may be float, how to handle this?
+
+    console.log(`Attestation is completed.`);
 
     res.send(userAnalytics);
 
