@@ -1,5 +1,7 @@
 # Persona - Web3 Wallet Score Platform
 
+[Link to the App](https://persona-khaki.vercel.app/)
+
 Persona is a platform that allows users to connect their Web3 wallets and view transaction data and scores on various Layer 2 networks. The project is built using modern frontend technologies like React, Tailwind CSS, and Wagmi.
 
 ## Features

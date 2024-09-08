@@ -5,3 +5,5 @@
 
 smart-contract/artifacts/
 smart-contract/cache/
+
+frontend/.vercel/
