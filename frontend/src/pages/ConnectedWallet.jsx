@@ -10,7 +10,6 @@ import leftVector from "../assets/left-vector.png";
 import rightVector from "../assets/right-vector.png";
 import { useFetch } from "../hooks/useFetch";
 
-
 const networks = [
   {
     name: "Optimism",
@@ -30,8 +29,7 @@ const networks = [
 ];
 
 const ConnectedWallet = () => {
-  const [dataWallet, setDataWallet] = useState({ total: { score: 0 } });
-
+  const [dataWallet, setDataWallet] = useState();
   const { isConnected, address } = useAccount();
   const navigate = useNavigate();
 
@@ -44,18 +42,9 @@ const ConnectedWallet = () => {
     [!!address]
   );
 
-  console.log(setDataWallet);
-  
   console.log(data);
 
   // walletData state
-  const [walletData, setWalletData] = useState({
-    tx: 0,
-    balance: 0,
-    erc20_721: 0,
-    uniqueContract: 0,
-    tokenNumber: 0,
-  });
 
   useEffect(() => {
     if (!isConnected) {
@@ -63,8 +52,11 @@ const ConnectedWallet = () => {
     }
   }, [isConnected, navigate]);
 
-  const handleLayerClick = (layer) => {
-    navigate("/scroll-score", { state: { layer } });
+  const handleLayerClick = (network) => {
+    navigate("/scroll-score", {
+      state: { data: dataWallet[network.name.toLowerCase()], layer: network },
+    });
+    console.log(network);
   };
 
   return (
@@ -83,7 +75,7 @@ const ConnectedWallet = () => {
       <div className="text-center text-6xl my-6 flex items-center justify-center gap-6 mb-12">
         <img src={leftVector} alt="Left vector" className="animate-pulse" />
         <div className="text-5xl font-bold text-white transition-transform duration-500 ease-in-out transform hover:scale-105">
-        {dataWallet?.total?.score ? dataWallet.total.score : "Loading..."}
+          {dataWallet?.total.score ? dataWallet?.total.score : 0}
         </div>
         <img src={rightVector} alt="Right vector" className="animate-pulse" />
       </div>
@@ -94,12 +86,12 @@ const ConnectedWallet = () => {
             key={network.name}
             logo={network.logo}
             name={network.name}
-            onClick={() => handleLayerClick(network)}
+            onClick={() => dataWallet &&  handleLayerClick(network)}
           />
         ))}
       </div>
 
-      <CheckYourScore walletData={walletData} setWalletData={setWalletData} />
+      <CheckYourScore dataWallet={dataWallet} setDataWallet={setDataWallet} />
     </div>
   );
 };

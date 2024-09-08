@@ -1,12 +1,11 @@
 import { useAccount } from "wagmi";
 import { useFetch } from "../hooks/useFetch";
 import { useState , useEffect } from "react";
-const CheckYourScore = ({ walletData}) => {
+const CheckYourScore = ({ dataWallet , setDataWallet }) => {
  
 
   const { address } = useAccount();
   const [isFetch , setIsFetch] = useState(false);
-  const [dataWallet , setDataWallet] = useState();
 
   
 
@@ -57,7 +56,7 @@ const CheckYourScore = ({ walletData}) => {
           <div className="bg-gray-700 w-full h-2 rounded-full overflow-hidden">
             <div
               className="bg-blue-500 h-full transition-all duration-700 ease-out"
-              style={{ width: `${Math.min(walletData.usdBalance / 10, 100)}%` }}
+              style={{ width: `${Math.min(dataWallet?.usdBalance / 10, 100)}%` }}
             ></div>
           </div>
           <span className="text-white  ml-4"> {dataWallet?.total.usdBalance}</span>
@@ -68,7 +67,7 @@ const CheckYourScore = ({ walletData}) => {
           <div className="bg-gray-700 w-full h-2 rounded-full overflow-hidden">
             <div
               className="bg-blue-500 h-full transition-all duration-700 ease-out"
-              style={{ width: `${Math.min(walletData.ethBalance / 5, 100)}%` }}
+              style={{ width: `${Math.min(dataWallet?.ethBalance / 5, 100)}%` }}
             ></div>
           </div>
           <span className="text-white  ml-4">{dataWallet?.total.ethBalance}</span>
@@ -79,7 +78,7 @@ const CheckYourScore = ({ walletData}) => {
           <div className="bg-gray-700 w-full h-2 rounded-full overflow-hidden">
             <div
               className="bg-blue-500 h-full transition-all duration-700 ease-out"
-              style={{ width: `${Math.min(walletData.erc20Count / 2, 100)}%` }}
+              style={{ width: `${Math.min(dataWallet?.erc20Count / 2, 100)}%` }}
             ></div>
           </div>
           <span className="text-white  ml-4"> {dataWallet?.total.erc20Count} </span>
@@ -90,7 +89,7 @@ const CheckYourScore = ({ walletData}) => {
           <div className="bg-gray-700 w-full h-2 rounded-full overflow-hidden">
             <div
               className="bg-blue-500 h-full transition-all duration-700 ease-out"
-              style={{ width: `${Math.min(walletData.nftCount / 150, 100)}%` }}
+              style={{ width: `${Math.min(dataWallet?.nftCount / 150, 100)}%` }}
             ></div>
           </div>
           <span className="text-white  ml-4">{dataWallet?.total.nftCount}</span>
