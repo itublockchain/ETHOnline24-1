@@ -1,37 +1,28 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useNavigate } from "react-router-dom";
-import LayerTwo from "../components/LayerTwo";
-import CheckYourScore from "../components/CheckYourScore";
-import optimismLogo from "../assets/optimism-logo.png";
-import mainnetLogo from "../assets/mainnet-logo.png";
-import arbitrumLogo from "../assets/arbitrum-logo.png";
-import leftVector from "../assets/left-vector.png";
-import rightVector from "../assets/right-vector.png";
+
+// Custom hooks
 import { useFetch } from "../hooks/useFetch";
 
-const networks = [
-  {
-    name: "Optimism",
-    logo: optimismLogo,
-    transactions: ["OpTx 0001", "OpTx 0002"],
-  },
-  {
-    name: "Mainnet",
-    logo: mainnetLogo,
-    transactions: ["LnTx 0001", "LnTx 0002"],
-  },
-  {
-    name: "Arbitrum",
-    logo: arbitrumLogo,
-    transactions: ["ArTx 0001", "ArTx 0002"],
-  },
-];
+// Components
+import { LayerTwo, CheckYourScore } from "../components";
+
+// Constants
+import { NETWORKS } from "../lib/constants";
+import {
+  optimismLogo,
+  mainnetLogo,
+  arbitrumLogo,
+  leftVector,
+  rightVector,
+} from "../lib/images";
 
 const ConnectedWallet = () => {
+  const navigate = useNavigate();
+
   const [dataWallet, setDataWallet] = useState();
   const { isConnected, address } = useAccount();
-  const navigate = useNavigate();
 
   const { data } = useFetch(
     "/get-analytics",
@@ -81,12 +72,12 @@ const ConnectedWallet = () => {
       </div>
 
       <div className="flex flex-col justify-center items-center sm:flex-row gap-4 max-w-5xl mx-auto">
-        {networks.map((network) => (
+        {NETWORKS.map((network) => (
           <LayerTwo
             key={network.name}
             logo={network.logo}
             name={network.name}
-            onClick={() => dataWallet &&  handleLayerClick(network)}
+            onClick={() => dataWallet && handleLayerClick(network)}
           />
         ))}
       </div>

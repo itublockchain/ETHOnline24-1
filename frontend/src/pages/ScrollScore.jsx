@@ -1,16 +1,14 @@
 import { useLocation } from "react-router-dom";
-import Score from "../components/Score";
-import leftVector from "../assets/left-vector.png";
-import rightVector from "../assets/right-vector.png";
+
+// Components
+import { Score } from "../components";
+
+// Images
+import { leftVector, rightVector } from "../lib/images";
 
 const ScrollScore = () => {
   const { state } = useLocation();
-  
   const { data, layer } = state;
-  console.log(data);
-
-
-
 
   if (!layer) {
     return (

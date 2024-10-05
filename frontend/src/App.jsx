@@ -1,11 +1,15 @@
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MainLayout from "./layouts/MainLayout";
-import Homepage from "./pages/Homepage";
-import NotFoundPage from "./pages/NotFoundPage";
-import ConnectedWallet from "./pages/ConnectedWallet";
+
+// Layout
+import MainLayout from "./pages/MainLayout";
+
+// Pages
+import { Homepage, ConnectedWallet, ScrollScore, NotFoundPage } from "./pages";
+
+// Components
 import Web3Provider from "./components/Web3Provider";
-import ScrollScore from "./pages/ScrollScore";
+
 function App() {
   return (
     <Web3Provider>

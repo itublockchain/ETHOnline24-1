@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 const NotFoundPage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 via-blue-900 to-black text-white p-12">
